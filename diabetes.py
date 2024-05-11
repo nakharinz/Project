@@ -4,7 +4,7 @@ from sklearn.decomposition import PCA
 import pandas as pd
 
 from sklearn.datasets import load_diabetes
-tmp = diabetes = load_diabetes(as_frame=True)
+tmp = load_diabetes(as_frame=True)
 df = tmp['data']
 df['color'] = tmp['target']
 st.title('Data visualization')
