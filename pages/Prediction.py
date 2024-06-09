@@ -99,7 +99,7 @@ if 'df' in st.session_state:
         try:
             prediction = model.predict(input_data)
             st.subheader('Prediction')
-            st.write(f'Predicted insurance claim: {prediction[0]:.02f} R$')
+            st.write(f'Predicted insurance claim: {prediction[0]:.02f}$')
         except Exception as e:
             st.error(f"An error occurred during prediction: {e}")
 
