@@ -15,6 +15,10 @@ from sklearn.metrics import mean_absolute_error
 import joblib
 import plotly.graph_objects as go
 
+def mean_absolute_percentage_error(actual, predicted):
+    actual, predicted = np.array(actual), np.array(predicted)
+    return np.mean(np.abs((actual - predicted) / actual)) * 100
+
 # Streamlit Title
 st.title('Regression Model Builder')
 
@@ -94,20 +98,20 @@ if 'df' in st.session_state:
 
         # Make predictions
         predictions = target_transformer.predict(df.drop(target, axis=1))
-        st.subheader(f'Mean Absolute Error (MAE): {mean_absolute_error(df[target], predictions):.5f}')
+        st.subheader(f'Mean Absolute Percentage Error (MAPE): {mean_absolute_percentage_error(df[target], predictions):.5f} %')
 
         # Plot Actual vs Predicted values
         results_df = pd.DataFrame({'Actual': df[target], 'Predicted': predictions})
         fig = go.Figure()
         fig.add_trace(go.Scatter(
-            x=results_df['Predicted'], y=results_df['Actual'], mode='markers', name='Actual vs Predicted'
+            x=results_df['Actual'], y=results_df['Predicted'], mode='markers', name='Actual vs Predicted'
         ))
         fig.add_trace(go.Scatter(
-            x=results_df['Predicted'], y=results_df['Predicted'], mode='lines', name='Correct Prediction',
+            x=results_df['Actual'], y=results_df['Actual'], mode='lines', name='Correct Prediction',
             line=dict(color='red')
         ))
 
-        fig.update_layout(title='Actual vs Predicted', xaxis_title='Predicted Value', yaxis_title='Actual Value')
+        fig.update_layout(title='Actual vs Predicted', xaxis_title='Actual Value', yaxis_title='Predicted Value')
         st.plotly_chart(fig)
 
         # Save model option
